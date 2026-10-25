@@ -1,0 +1,28 @@
+/* Record drawer (.design/components.md, "Drawer"): 480 px from the right over an --ink scrim; full screen on phones. */
+.scrim{position:fixed;inset:0;z-index:20;background:color-mix(in srgb,var(--ink) 20%,transparent)}
+.drawer{position:fixed;top:0;right:0;bottom:0;z-index:21;width:min(480px,100vw);background:var(--panel);border-left:1px solid var(--line);display:flex;flex-direction:column;animation:dslide .16s ease-out}
+@keyframes dslide{from{transform:translateX(24px);opacity:.6}}
+@media (prefers-reduced-motion:reduce){.drawer{animation:none}}
+.dhead{padding:18px 22px 14px;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:8px}
+.dhead h2{margin:0;font-size:20px;letter-spacing:-.01em;text-transform:none;color:var(--ink);display:block}
+.drow{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.drow .mono{font-size:12px}
+.dclose .back{display:none}
+.dbody{padding:16px 22px;display:flex;flex-direction:column;gap:20px;overflow:auto;flex:1;overflow-wrap:anywhere}
+.drawer .why{background:var(--block-bg);border-radius:8px;padding:10px 12px;font-size:13.5px}.drawer .why b{color:var(--block)}
+.kv{display:grid;grid-template-columns:92px minmax(0,1fr);gap:6px 12px;font-size:13px;margin:0}.kv dt{color:var(--ink3)}.kv dd{margin:0}
+.dsec{display:flex;flex-direction:column;gap:8px}
+.deps{display:flex;flex-direction:column;gap:6px}
+.deps a{display:flex;align-items:center;gap:8px;padding:7px 10px;border:1px solid var(--line);border-radius:6px;font-size:13px;text-decoration:none;color:var(--ink)}
+.deps a:hover{border-color:var(--ink3)}
+.deps .dt{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.deps .dw{font-size:12px;color:var(--ink3)}
+.hist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.hist li{display:grid;grid-template-columns:44px 14px minmax(0,1fr);gap:8px;font-size:12.5px;align-items:start}
+.hist li>span:nth-child(2){padding-top:2px;display:flex}.hist .dk{font-size:11.5px}
+.hist li:has(.dk){grid-template-columns:44px auto minmax(0,1fr)}
+.raw{font-size:13px}.raw summary{cursor:pointer;color:var(--ink2)}
+.raw pre{margin:8px 0 0;padding:10px 12px;background:var(--sunk);border-radius:6px;font:400 11.5px/1.5 var(--mono);color:var(--ink2);white-space:pre-wrap}
+.dfoot{padding:12px 22px;border-top:1px solid var(--line);display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+tr[data-key]{cursor:pointer}tr[data-key]:hover td{background:var(--sunk)}
+tr[data-key]:focus-visible{outline-offset:-2px}
+@media (max-width:860px){.drawer{width:100vw;border-left:0}.dclose .x{display:none}.dclose .back{display:inline}.dhead .kbd{display:none}}
+@media (forced-colors:active){.drawer{border-left:1px solid CanvasText}}

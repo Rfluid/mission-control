@@ -1,0 +1,93 @@
+# Built-in defaults: the lowest config layer. Every other layer patches this (see docs/CONFIG.md).
+schema = 1
+
+[mission]
+template = "minimal"
+refresh = "live" # live (SSE) | poll:<secs>
+
+[vars]
+
+[links]
+
+# state -> color token: todo | prog | rev | block | done | warn
+[states]
+todo = "todo"
+open = "warn"
+waiting = "warn"
+pending = "warn"
+in_progress = "prog"
+running = "prog"
+in_review = "rev"
+blocked = "block"
+failed = "block"
+fail = "block"
+merged = "done"
+done = "done"
+passed = "done"
+pass = "done"
+answered = "done"
+finished = "todo"
+closed = "todo"
+# run health (the `run` record, shown first in the status strip)
+on_track = "done"
+at_risk = "warn"
+off_track = "block"
+
+[permissions]
+run_actions = false
+
+[retention]
+events_keep = 2000 # newest events kept per mission
+page_size = 50     # events per "older" page in the feed
+config_keep = 50   # mission-control config versions kept; older ones fold into one (undo stops there)
+
+[brief]
+max_chars = 4000
+collections = ["needs"]
+
+# Claude Code hooks (`mission-control hook`) fill these collections with no agent calls.
+[ingest]
+subagents = true # → agents
+prs = true       # → prs (gh pr create / merge)
+spend = true     # → spend, from the session transcript
+
+# USD per million tokens, by model-id prefix (the longest match wins): estimates for the spend widget, from
+# Anthropic's list prices on 2026-10-06. cache_read defaults to 0.1 × input, cache_write to 1.25 × input.
+# Override in your user config to match your bill.
+[ingest.prices]
+claude-fable-5 = { input = 10.0, output = 50.0, cache_read = 0.25 }
+claude-mythos-5 = { input = 10.0, output = 50.0 }
+claude-opus-5-5 = { input = 4.0, output = 20.0, cache_read = 0.2 }
+claude-opus-5 = { input = 5.0, output = 25.0 }
+claude-opus-4 = { input = 5.0, output = 25.0 }
+claude-sonnet-5 = { input = 2.0, output = 10.0, cache_read = 0.2 }
+claude-sonnet-4 = { input = 3.0, output = 15.0 }
+claude-haiku-5 = { input = 0.1, output = 0.5 }
+claude-haiku-4 = { input = 1.0, output = 5.0 }
+
+# Pages are tabs; Overview always exists and comes first. Templates add the rest, and sections pick one with
+# `page = "<id>"` (default "overview").
+[[pages]]
+id = "overview"
+title = "Overview"
+
+# The status strip under the top bar: health first, then `cells` (templates add them), then Needs you.
+[strip]
+health = { collection = "run", key = "run" }
+needs = "needs"
+
+[ui]
+shortcuts = true # single-key shortcuts (/, ?, g then a letter, n, j/k); ⌘K / Ctrl+K always works
+
+[actions.ask]
+label = "Ask agent"
+kind = "ask_agent"
+prompt = true
+
+[actions.customize]
+label = "Customize"
+kind = "customize"
+prompt = true
+
+[toolbar]
+actions = ["ask", "customize"]

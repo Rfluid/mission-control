@@ -1,0 +1,208 @@
+name = "multi-agent-build"
+description = "A lead agent running tasks in phases through subagents: plan with dependencies, gates, PRs, tests, agents, decisions, risks, spend."
+extends = "minimal"
+
+[links]
+pr = "https://github.com/{vars.repo}/pull/{value}"
+
+# Tabs, after Overview. Each shows only while a section is on it.
+[[pages]]
+id = "plan"
+title = "Plan"
+count = { collection = "packages" }
+before = "activity"
+
+[[pages]]
+id = "architecture"
+title = "Architecture"
+before = "activity"
+
+[[pages]]
+id = "prs"
+title = "Pull requests"
+count = { collection = "prs", state = "open" }
+before = "activity"
+
+[[pages]]
+id = "tests"
+title = "Tests"
+before = "activity"
+
+[[pages]]
+id = "agents"
+title = "Agents"
+count = { collection = "agents", state = "running" }
+before = "activity"
+
+[[pages]]
+id = "decisions"
+title = "Decisions"
+count = { collection = "decisions" }
+before = "activity"
+
+[strip]
+cells = [
+  { id = "phase", label = "Phase", plan = "plan" },
+  { id = "tasks", label = "Tasks", count = { collection = "packages", state = ["merged", "done"] }, of = { collection = "packages" }, suffix = "done" },
+  { id = "blocked", label = "Blocked", count = { collection = "packages", state = "blocked" }, tone = "block", hide_zero = true },
+  { id = "agents", label = "Agents", count = { collection = "agents", state = "running" }, suffix = "running" },
+  { id = "spend", label = "Spend", sum = { collection = "spend", field = "usd" }, format = "usd" },
+]
+
+# Overview, main column: what needs you, then what's moving.
+[[sections]]
+id = "status"
+remove = true
+
+[[sections]]
+id = "track"
+title = "The plan"
+widget = "track"
+plan = "plan"
+after = "needs"
+go = { page = "plan", label = "Open plan" }
+
+[[sections]]
+id = "inflight"
+title = "In flight"
+widget = "table"
+collection = "packages"
+after = "track"
+filter = { state = ["in_progress", "in_review", "blocked", "running"] }
+sort = "tone"
+empty = "Nothing in flight."
+columns = [
+  { id = "state", as = "pill" },
+  { id = "key", label = "Task", as = "code" },
+  { id = "name" },
+  { id = "agent", as = "code" },
+  { id = "updated", label = "For", as = "age" },
+  { id = "reason", label = "Note", as = "muted", or = "note" },
+]
+
+# Overview, rail: numbers, the burndown, recent activity.
+[[sections]]
+id = "overview"
+items = [
+  { label = "Tasks done", count = { collection = "packages", state = ["merged", "done"] }, of = { collection = "packages" } },
+  { label = "PRs open", count = { collection = "prs", state = "open" }, note = { count = { collection = "prs", state = "merged" }, suffix = "merged" } },
+  { label = "Agents running", count = { collection = "agents", state = "running" }, note = { count = { collection = "agents" }, prefix = "of", suffix = "spawned" } },
+  { label = "Spend", sum = { collection = "spend", field = "usd" }, format = "usd", note = { sum = { collection = "spend", field = ["input_tokens", "output_tokens"] }, format = "tokens", suffix = "tokens" } },
+]
+
+[[sections]]
+id = "burn"
+title = "Burndown"
+widget = "chart"
+column = "rail"
+collection = "burn"
+x = "at"
+y = "open"
+label = "open"
+height = 84
+after = "overview"
+
+# Plan
+# Tasks set `phase` and `depends_on = ["C0"]`; the graph draws every dependency. Older runs in waves
+# (`waves`, `wave`) draw too.
+[[sections]]
+id = "plan"
+title = "Phases and dependencies"
+widget = "plan"
+page = "plan"
+phases = { collection = ["phases", "waves"] }
+nodes = { collection = "packages", phase = ["phase", "wave"], deps = "depends_on" }
+gates = { collection = "gates" }
+columns = [
+  { id = "key", label = "Task", as = "code" },
+  { id = "name" },
+  { id = "phase", as = "code" },
+  { id = "state", as = "pill" },
+  { id = "depends_on", label = "Depends on", as = "code" },
+  { id = "agent", as = "code" },
+  { id = "pr", label = "PR", link = "pr" },
+  { id = "reason", label = "Note", as = "muted", or = "note" },
+]
+
+[[sections]]
+id = "gates"
+title = "Gates"
+widget = "checklist"
+page = "plan"
+collection = "gates"
+
+# Architecture: a component diagram (`components` with `group` and an optional `task`, `links` with `from`, `to`,
+# `label`) and a long-form doc (`docs/architecture`, field `body`; ```mermaid blocks draw).
+[[sections]]
+id = "system"
+title = "System"
+widget = "graph"
+page = "architecture"
+nodes = { collection = "components", group = "group", task = "task" }
+edges = { collection = "links" }
+
+[[sections]]
+id = "howitworks"
+title = "How it works"
+widget = "doc"
+page = "architecture"
+record = { collection = "docs", key = "architecture", field = "body" }
+
+# One topic per page
+[[sections]]
+id = "prs"
+title = "Pull requests"
+widget = "table"
+page = "prs"
+collection = "prs"
+columns = [
+  { id = "key", label = "PR", link = "pr" },
+  { id = "title" },
+  { id = "pkg", label = "Task", as = "code" },
+  { id = "state", as = "pill" },
+  { id = "review" },
+  { id = "checks" },
+]
+
+[[sections]]
+id = "tests"
+title = "Tests"
+widget = "table"
+page = "tests"
+collection = "tests"
+columns = [{ id = "pkg", label = "Task", as = "code" }, { id = "layer" }, { id = "state", label = "Result", as = "pill" }, { id = "count", as = "code" }, { id = "updated", label = "Last run", as = "time" }]
+
+[[sections]]
+id = "agents"
+title = "Agents"
+widget = "table"
+page = "agents"
+collection = "agents"
+columns = [{ id = "key", label = "Agent", as = "code" }, { id = "pkg", label = "Task", as = "code" }, { id = "state", as = "pill" }, { id = "last_report" }]
+
+[[sections]]
+id = "spend"
+title = "Spend"
+widget = "spend"
+page = "agents"
+collection = "spend"
+
+[[sections]]
+id = "decisions"
+title = "Decisions taken"
+widget = "table"
+page = "decisions"
+collection = "decisions"
+sort = "-key"
+columns = [{ id = "key", label = "ID", as = "code" }, { id = "title", label = "Decision" }, { id = "why", as = "muted" }, { id = "by" }]
+
+[[sections]]
+id = "risks"
+title = "Risks and blockers"
+widget = "table"
+page = "decisions"
+collection = "risks"
+columns = [{ id = "key", label = "ID", as = "code" }, { id = "title" }, { id = "owner" }, { id = "fallback", as = "muted" }, { id = "state", as = "pill" }]
+
+[brief]
+collections = ["needs", "packages", "prs", "gates", "risks"]

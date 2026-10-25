@@ -1,0 +1,113 @@
+/* mission-control design tokens (v2). Source of truth with tokens.json: change both together, then run
+ * `python3 .design/check.py`. web/style.css carries a copy (checked). Light is the default; dark applies
+ * from the OS unless the page sets data-theme="light", or always with data-theme="dark" (the Theme button).
+ */
+:root {
+  /* text and surfaces */
+  --bg: #f7f7f5;
+  --panel: #ffffff;
+  --ink: #141414;
+  --ink2: #4a4a4a;
+  --ink3: #6f6f6a;
+  --line: #e3e3df;
+  --line2: #d0d0ca;
+  --focus: #2459b8;
+  --sunk: #f2f2ee;
+  /* state tones */
+  --todo: #5f5f5a;
+  --prog: #2459b8;
+  --rev: #7440b5;
+  --block: #ad3523;
+  --done: #1a7341;
+  --warn: #8a5a0c;
+  /* state tints */
+  --todo-bg: #efefec;
+  --prog-bg: #e6eefc;
+  --rev-bg: #f1e8fb;
+  --block-bg: #fbe8e4;
+  --done-bg: #e3f4ea;
+  --warn-bg: #fbf1dc;
+  /* chart series (categorical, fixed order; see .design/dataviz.md) */
+  --s1: #2a78d6;
+  --s2: #eb6834;
+  --s3: #1baf7a;
+  --s4: #eda100;
+  --s5: #e87ba4;
+  --s6: #008300;
+  --s7: #6250d6;
+  --s8: #e34948;
+}
+
+:root[data-theme="dark"] {
+  /* text and surfaces */
+  --bg: #0e0e0f;
+  --panel: #161618;
+  --ink: #ededea;
+  --ink2: #b4b4ae;
+  --ink3: #8c8c86;
+  --line: #2a2a2d;
+  --line2: #3a3a3e;
+  --focus: #6a9cf5;
+  --sunk: #1c1c1f;
+  /* state tones */
+  --todo: #9a9a94;
+  --prog: #6a9cf5;
+  --rev: #b48af0;
+  --block: #f07a64;
+  --done: #4cc27e;
+  --warn: #e0a84a;
+  /* state tints */
+  --todo-bg: #232325;
+  --prog-bg: #17243d;
+  --rev-bg: #271b38;
+  --block-bg: #3a1d17;
+  --done-bg: #13301f;
+  --warn-bg: #352812;
+  /* chart series (categorical, fixed order; see .design/dataviz.md) */
+  --s1: #3987e5;
+  --s2: #d95926;
+  --s3: #199e70;
+  --s4: #c98500;
+  --s5: #d55181;
+  --s6: #008300;
+  --s7: #9085e9;
+  --s8: #e66767;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    /* text and surfaces */
+    --bg: #0e0e0f;
+    --panel: #161618;
+    --ink: #ededea;
+    --ink2: #b4b4ae;
+    --ink3: #8c8c86;
+    --line: #2a2a2d;
+    --line2: #3a3a3e;
+    --focus: #6a9cf5;
+    --sunk: #1c1c1f;
+    /* state tones */
+    --todo: #9a9a94;
+    --prog: #6a9cf5;
+    --rev: #b48af0;
+    --block: #f07a64;
+    --done: #4cc27e;
+    --warn: #e0a84a;
+    /* state tints */
+    --todo-bg: #232325;
+    --prog-bg: #17243d;
+    --rev-bg: #271b38;
+    --block-bg: #3a1d17;
+    --done-bg: #13301f;
+    --warn-bg: #352812;
+    /* chart series (categorical, fixed order; see .design/dataviz.md) */
+    --s1: #3987e5;
+    --s2: #d95926;
+    --s3: #199e70;
+    --s4: #c98500;
+    --s5: #d55181;
+    --s6: #008300;
+    --s7: #9085e9;
+    --s8: #e66767;
+  }
+}

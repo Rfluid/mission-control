@@ -1,0 +1,14 @@
+{
+  // Type-checks the page (web/*.js) from JSDoc. No emit: the files ship as written (include_str!).
+  "compilerOptions": {
+    "allowJs": true,
+    "checkJs": true,
+    "noEmit": true,
+    "strict": true,
+    "target": "es2022",
+    "lib": ["es2022", "dom", "dom.iterable"],
+    "types": [],
+    "skipLibCheck": true
+  },
+  "include": ["web/*.js", "web/types.d.ts"]
+}

@@ -1,0 +1,44 @@
+# The repo's defaults: committed, shared by everyone who runs a mission here.
+
+[vars]
+repo = "acme/shop"
+linear = "acme"
+
+[links]
+pr = "https://github.com/{vars.repo}/pull/{value}"
+issue = "https://linear.app/{vars.linear}/issue/{value}"
+
+[states]
+at_risk = "warn"
+on_track = "done"
+
+# Buttons on every PR row, one of each kind that needs no shell. The page fills {row.*} and {vars.*}.
+[actions.rerun-ci]
+label = "Re-run CI"
+kind = "ask_agent"          # the agent gets "Re-run CI on PR 17" (wait / channel)
+message = "Re-run CI on PR {row.key}"
+confirm = true
+
+[actions.merged]
+label = "Mark merged"
+kind = "set"                # the daemon sets the row's state; the agent hears about it
+state = "merged"
+
+[actions.on-github]
+label = "GitHub"
+kind = "open"               # a link, opened in a new tab
+url = "https://github.com/{vars.repo}/pull/{row.key}"
+
+[actions.copy-ref]
+label = "Copy ref"
+kind = "copy"               # to the clipboard
+text = "{vars.repo}#{row.key}"
+
+[[sections]]
+id = "prs"
+row_actions = ["rerun-ci", "merged", "on-github", "copy-ref"]
+
+# A named widget: a built-in with preset props. Sections use it as `widget = "open-risks"`.
+[widgets.open-risks]
+base = "table"
+props = { collection = "risks", sort = "-updated", columns = [{ id = "key", as = "code" }, { id = "title" }, { id = "state", as = "pill" }] }

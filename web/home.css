@@ -1,0 +1,23 @@
+/* Missions home (.design/components.md, "Missions home"; layout.md). */
+.wordmark{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink)}
+.wordmark img{border-radius:6px}
+.wm{margin:0;font-size:17px;font-weight:600;letter-spacing:-.02em}.wm span{color:var(--ink3);font-weight:500}
+#home h2 .grow{flex:1}
+#home h2 .seg{text-transform:none;letter-spacing:0;font-weight:400}
+.warnh{color:var(--warn)}
+.needsall{border-color:var(--warn)}
+.nrow{display:grid;grid-template-columns:200px minmax(0,1fr) 90px;gap:12px;padding:11px 16px;text-decoration:none;color:var(--ink);font-size:13.5px;border-top:1px solid var(--line)}
+.nrow:first-child{border-top:0}.nrow .nm{color:var(--ink2)}.nrow>:last-child{text-align:right}
+.nrow:hover{background:var(--sunk)}
+.mgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,380px),1fr));gap:16px}
+.mcard{padding:16px 18px;display:flex;flex-direction:column;gap:12px;text-decoration:none;color:var(--ink);min-width:0;overflow-wrap:anywhere}
+.mcard:hover{border-color:var(--line2)}
+.mtop{display:flex;align-items:center;gap:8px}.mt{font-size:15px;flex:1;min-width:0}
+.mhl{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.mhl .small{color:var(--ink2);font-size:13px}
+.mprog{display:flex;flex-direction:column;gap:5px}
+.segs{display:flex;gap:3px}.segs i{flex:1;height:5px;border-radius:2px;background:var(--line2)}
+.sg-done{background:var(--done)!important}.sg-now{background:var(--ink)!important}.sg-rev{background:var(--rev)!important}
+.sg-prog{background:var(--prog)!important}.sg-warn{background:var(--warn)!important}.sg-block{background:var(--block)!important}
+.mstat{display:flex;gap:18px;flex-wrap:wrap;font-size:12.5px;color:var(--ink3);align-items:baseline}.mstat b{color:var(--ink);font-weight:600}
+.mstat .grow{flex:1}
+@media (max-width:860px){.nrow{grid-template-columns:minmax(0,1fr) auto}.nrow .nm{grid-column:1/-1}#addr{display:none}}

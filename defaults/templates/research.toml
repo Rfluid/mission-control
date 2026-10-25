@@ -1,0 +1,42 @@
+name = "research"
+description = "Questions under investigation, findings with sources, and open threads."
+extends = "minimal"
+
+[[pages]]
+id = "findings"
+title = "Findings"
+count = { collection = "findings" }
+before = "activity"
+
+[strip]
+cells = [
+  { id = "questions", label = "Questions", count = { collection = "questions", state = ["answered", "done"] }, of = { collection = "questions" }, suffix = "answered" },
+  { id = "findings", label = "Findings", count = { collection = "findings" } },
+]
+
+[[sections]]
+id = "overview"
+items = [
+  { label = "Questions open", count = { collection = "questions", state = "open" } },
+  { label = "Findings", count = { collection = "findings" } },
+  { label = "Waiting on you", count = { collection = "needs", state = "open" } },
+]
+
+[[sections]]
+id = "questions"
+title = "Questions"
+widget = "table"
+collection = "questions"
+after = "needs"
+columns = [{ id = "key", as = "code" }, { id = "question" }, { id = "state", as = "pill" }, { id = "answer", as = "muted" }]
+
+[[sections]]
+id = "findings"
+title = "Findings"
+widget = "table"
+collection = "findings"
+page = "findings"
+columns = [{ id = "title" }, { id = "confidence" }, { id = "source", as = "link" }]
+
+[brief]
+collections = ["needs", "questions", "findings"]

@@ -1,0 +1,7 @@
+name = "billing-build"
+description = "The billing export build: multi-agent-build plus Linear issues on the board."
+extends = "multi-agent-build"
+
+[[sections]]
+id = "board"
+columns = [{ id = "issue", label = "Issue", link = "issue", after = "pr" }]

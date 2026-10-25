@@ -1,0 +1,63 @@
+/* Plan graph, phase track and system graph (.design/components.md). Fixed geometry: 184 × 56 nodes,
+   296 px column pitch, 80 px rows; the canvas scrolls inside its card, never squeezes. */
+.lbl{font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3)}
+.mixbar{display:flex;gap:2px;height:6px}.mixbar i{flex:1;border-radius:2px;background:var(--line2)}
+.m-done{background:var(--done)!important}.m-rev{background:var(--rev)!important}.m-prog{background:var(--prog)!important}
+.m-warn{background:var(--warn)!important}.m-block{background:var(--block)!important}
+/* Phase track (Overview) */
+.track{padding:18px 20px;display:flex;flex-wrap:wrap;align-items:stretch;gap:10px}
+.tphase{flex:1 1 140px;display:flex;flex-direction:column;gap:6px;padding:10px 12px;border-radius:8px;min-width:0}
+.tphase.now{background:var(--sunk);box-shadow:inset 0 3px 0 var(--ink)}.tphase.now .lbl{color:var(--ink)}
+.tgate{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;width:44px}
+.tgate .mono{font-size:10.5px;color:var(--ink3)}
+/* Plan graph */
+.pgraph{overflow:hidden;position:relative;display:flex;flex-direction:column}
+/* Viewport controls (viewport.js): top right of the diagram card */
+.vctl{margin-left:auto;display:flex;align-items:center;gap:4px}
+.vctl .btn{padding:3px 8px;font-size:12.5px;min-width:28px;justify-content:center}
+.vlevel{font-size:11px;color:var(--ink3);min-width:36px;text-align:center}
+[data-viewport]{cursor:grab}[data-viewport].grabbing{cursor:grabbing;user-select:none}
+[data-viewport]:focus-visible{outline-offset:-2px}
+section:fullscreen,section.vfull{background:var(--bg);padding:20px 24px;overflow:auto;display:flex;flex-direction:column}
+section.vfull{position:fixed;inset:0;z-index:40;margin:0}
+section:fullscreen .pgraph,section.vfull .pgraph{flex:1;min-height:0}
+section:fullscreen .pscroll,section.vfull .pscroll{flex:1;overflow:auto}
+.pscroll{overflow:auto;padding:8px 0 4px}
+.pcanvas{position:relative}
+.pband{position:absolute;top:0;border-radius:8px;background:var(--sunk);box-shadow:inset 0 3px 0 var(--ink)}
+.pedges{position:absolute;left:0;top:0;overflow:visible}
+.pedges path{fill:none}
+.prules path{stroke:var(--line2);stroke-width:1;stroke-dasharray:2 4}
+.e-met{stroke:var(--ink3);stroke-width:1.5}
+.e-wait{stroke:var(--ink3);stroke-width:1.5;stroke-dasharray:5 4}
+.e-block{stroke:var(--block);stroke-width:2;stroke-dasharray:5 4}
+.pedges .ah-m{fill:var(--ink3)}.pedges .ah-b{fill:var(--block)}
+.phead{position:absolute;top:8px;width:184px;display:flex;flex-direction:column;gap:4px}
+.phead.now .lbl{color:var(--ink)}
+.phbar{display:flex;align-items:center;gap:8px}.phbar .mixbar{width:80px;height:5px}.phbar .mono{font-size:11px;color:var(--ink3)}
+.pgate{position:absolute;width:64px;display:flex;flex-direction:column;align-items:center;gap:2px}
+.pgate .mono{font-size:10.5px;color:var(--ink3);white-space:nowrap}
+.plabel{position:absolute;width:152px;text-align:center;font-size:11.5px;line-height:16px;color:var(--block)}
+.pnode{position:absolute;width:184px;height:56px;padding:8px 10px;background:var(--panel);border:1px solid var(--line2);border-radius:8px;display:flex;gap:8px;align-items:flex-start;font-size:13px;line-height:18px;text-decoration:none;color:var(--ink);overflow:hidden}
+.pnode:hover{border-color:var(--ink3)}
+.pnode.blk{border:1.5px solid var(--block);padding:7.5px 9.5px}
+.pnode .pg{display:flex;padding-top:3px}
+.pnode .pt{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pnode small{display:block;font-size:11.5px;color:var(--ink3);overflow:hidden;text-overflow:ellipsis}
+.pnode small.t-block{color:var(--block)}
+.dim{opacity:.25}
+/* System graph: groups as --sunk bands with a label; node title, then a task pill or a muted line */
+.gband{position:absolute;top:0;border-radius:8px;background:var(--sunk)}
+.glabel{position:absolute;top:12px}
+.gnode{flex-direction:column;justify-content:center;gap:3px;align-items:stretch}
+.gnode .pt{display:flex;flex-direction:column;gap:3px;align-items:flex-start}
+.gnode b{font-weight:600}
+.glab{color:var(--ink3)}.glab.t-block{color:var(--block)}
+.vbar{justify-content:flex-end}
+.plegend{display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center;padding:12px 20px;border-top:1px solid var(--line);font-size:12.5px;color:var(--ink2)}
+.plegend>span{display:inline-flex;align-items:center;gap:6px}
+.nowbar{display:inline-block;width:16px;height:3px;background:var(--ink);border-radius:2px}
+.phint{margin:8px 0 0}
+.btn.sm{font-size:12.5px;padding:4px 10px}
+.btn[aria-pressed="true"]{border-color:var(--ink);box-shadow:inset 0 0 0 .5px var(--ink)}
+@media (forced-colors:active){.pnode{border:1px solid CanvasText}.pnode.blk{border:2px solid Highlight}.pband{outline:1px solid CanvasText}}
