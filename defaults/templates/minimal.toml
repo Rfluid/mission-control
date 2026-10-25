@@ -1,0 +1,43 @@
+name = "minimal"
+description = "Needs, a free-form status note and the activity log. Start here and grow."
+
+[[pages]]
+id = "activity"
+title = "Activity"
+
+[[sections]]
+id = "needs"
+title = "Needs you"
+widget = "needs"
+collection = "needs"
+
+[[sections]]
+id = "status"
+title = "Status"
+widget = "markdown"
+record = { collection = "notes", key = "status", field = "text" }
+
+[[sections]]
+id = "overview"
+title = "Numbers"
+widget = "kpis"
+column = "rail"
+items = [
+  { label = "Waiting on you", count = { collection = "needs", state = "open" } },
+  { label = "Events", count = { events = true } },
+]
+
+[[sections]]
+id = "recent"
+title = "Activity"
+widget = "feed"
+column = "rail"
+limit = 7
+go = { page = "activity", label = "All" }
+
+[[sections]]
+id = "activity"
+title = "Activity"
+widget = "feed"
+page = "activity"
+limit = 50

@@ -1,0 +1,96 @@
+/* The page frame (.design/layout.md, components.md "Shell"): top bar, status strip, sticky tabs, columns. */
+header.top{background:var(--panel)}
+.topin,.stripin,.tabsin{max-width:1360px;margin:0 auto;padding-left:24px;padding-right:24px}
+.topin{padding-top:12px;padding-bottom:10px;display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px}
+.mark{display:flex;flex:none}.mark img{display:block;border-radius:6px}
+.on-dark{display:none!important}
+:root[data-theme="dark"] .on-dark{display:block!important}:root[data-theme="dark"] .on-light{display:none!important}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .on-dark{display:block!important}:root:not([data-theme="light"]) .on-light{display:none!important}}
+.sep{color:var(--line2)}
+.brand{font-size:15px;font-weight:600;margin:0;min-width:0;overflow-wrap:anywhere}
+.chip{font:400 11.5px/18px var(--mono);color:var(--ink3);border:1px solid var(--line);border-radius:4px;padding:0 6px}
+.chip:empty{display:none}
+.grow{flex:1 1 0}
+.compact{display:inline-flex;gap:6px;align-items:center}.compact:empty{display:none}
+.compact a.pill{text-decoration:none}
+.live{display:inline-flex;align-items:center;gap:6px;font:400 12px/18px var(--mono);color:var(--ink3);white-space:nowrap}
+.ldot{width:7px;height:7px;border-radius:50%;background:var(--done);flex:none}
+.live[data-state="reconnecting"] .ldot,.live[data-state="connecting"] .ldot{background:var(--todo)}
+.live[data-state="snapshot"] .ldot{display:none}
+.tools{display:inline-flex;gap:6px;flex-wrap:wrap}.tools:empty{display:none}
+
+/* Status strip: Health widest, cells split by rules, Needs you last on --warn-bg */
+.strip{border-top:1px solid var(--line)}
+.stripin{padding-top:12px;padding-bottom:12px;display:flex;flex-wrap:wrap;align-items:stretch;gap:10px 0}
+.cell{display:flex;flex-direction:column;justify-content:center;gap:3px;padding:2px 20px;border-left:1px solid var(--line);min-width:0;text-decoration:none;color:inherit}
+.cell .l{font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3)}
+.cell .v{font:400 15px/22px var(--mono);white-space:nowrap}.cell .v b{font-weight:600}
+.cell .of{color:var(--ink3)}
+.cell.hl{flex:1 1 320px;padding-left:0;border-left:0}
+.hv{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.cell.hl .pill{font-size:12px;line-height:22px;padding:0 10px 0 8px}
+.cell.hl .why{font-size:13.5px;color:var(--ink2)}
+.pbar{display:flex;gap:2px;width:120px;margin-top:2px}.pbar i{flex:1;height:4px;border-radius:2px;background:var(--line2)}
+.pbar i.done{background:var(--done)}.pbar i.now{background:var(--ink)}
+.cell.needs{margin-left:12px;padding:6px 16px;border-left:0;border-radius:8px}
+.cell.needs.on{background:var(--warn-bg)}
+.cell.needs.on .l,.cell.needs.on .v{color:var(--warn)}
+.cell.needs .v{display:flex;align-items:center;gap:6px;font-family:var(--ui);font-size:14px}
+.cell.needs .quiet{color:var(--ink3)}
+
+/* Tabs: sticky, one line, scroll on phones */
+nav.tabs{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--panel) 92%,transparent);backdrop-filter:blur(8px);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.tabsin{display:flex;gap:24px;overflow-x:auto;scrollbar-width:none}
+.tab{font-size:13.5px;color:var(--ink2);text-decoration:none;padding:10px 2px 9px;border-bottom:2px solid transparent;display:inline-flex;gap:6px;align-items:baseline;white-space:nowrap}
+.tab:hover{color:var(--ink)}
+.tab[aria-current="page"]{color:var(--ink);font-weight:600;border-bottom-color:var(--ink)}
+
+/* Pages with a rail: main and rail side by side, the rail drops below when they don't fit */
+.cols{display:flex;flex-wrap:wrap;gap:0 24px;align-items:flex-start}
+.col-main{flex:999 1 640px;min-width:0}
+.col-rail{flex:1 1 340px;min-width:0}
+.col-rail .kpis{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.col-rail .kpi{padding:12px 14px}
+
+@media (max-width:860px){
+  .topin,.stripin,.tabsin{padding-left:16px;padding-right:16px}
+  .topin{gap:8px 10px}
+  .grow{flex-basis:100%;order:1;height:0}
+  .compact,.live,.tools,#theme,#bell,[data-palette]{order:2}
+  .chip,[data-palette] .wide{display:none}
+  .stripin{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .cell{border-left:0;padding:0}
+  .cell.hl{grid-column:1/-1}
+  .cell.needs{grid-column:1/-1;margin:0;order:-1;padding:8px 12px}
+  .cell.hl{order:-2}
+}
+@media (pointer:coarse),(max-width:860px){.tab{min-height:44px;align-items:center}}
+@media (forced-colors:active){.cell.needs{border:1px solid CanvasText}.tab[aria-current="page"]{text-decoration:underline}}
+/* Command palette and shortcut sheet: a 560 px dialog 20% from the top, fades in 120 ms */
+.palette{width:min(560px,calc(100vw - 32px));margin:20vh auto auto;padding:0;overflow:hidden;animation:pfade .12s ease-out}
+@keyframes pfade{from{opacity:0}}
+@media (prefers-reduced-motion:reduce){.palette{animation:none}}
+.palette input{width:100%;border:0;border-bottom:1px solid var(--line);border-radius:0;padding:14px 16px;font-size:15px;background:var(--panel);outline:none}
+.palette input::-webkit-search-cancel-button{display:none}
+.pal-list{list-style:none;margin:0;padding:6px 0;max-height:min(420px,60vh);overflow:auto}
+.pal-g{padding:8px 16px 4px;font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3)}
+.pal-i{display:flex;align-items:center;gap:10px;padding:7px 16px;cursor:pointer;font-size:13.5px}
+.pal-i[aria-selected="true"]{background:var(--sunk);box-shadow:inset 2px 0 0 var(--ink)}
+.pal-glyph{display:flex}.pal-l{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.pal-h{font:400 12px var(--mono);color:var(--ink3);white-space:nowrap}
+.pal-empty{padding:14px 16px;color:var(--ink3)}
+.keysheet{width:min(520px,calc(100vw - 32px))}
+.keys-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.keys{font-size:13px}.keys td{padding:6px 8px;border-bottom:1px solid var(--line)}.keys td:first-child{white-space:nowrap;width:1%}
+/* Forced colors (.design/accessibility.md): fills drop, so bars and dots get outlines; settled segments fill
+   with CanvasText; the active tab and the current phase keep a visible mark. */
+@media (forced-colors:active){
+  .tab{border-bottom-color:Canvas}.tab[aria-current="page"]{border-bottom-color:Highlight;text-decoration:none}
+  .mixbar i,.segs i,.pbar i,.kbar,.bar{border:1px solid CanvasText;forced-color-adjust:none;background:Canvas!important}
+  .mixbar i.m-done,.segs i.sg-done,.pbar i.done,.kbar i,.bar i{background:CanvasText!important}
+  .segs i.sg-now,.pbar i.now{background:Highlight!important}
+  .nowbar{border:1px solid CanvasText;forced-color-adjust:none}
+  .ldot{forced-color-adjust:none;background:CanvasText}
+  .need .rec,.drawer .why,.pal-i[aria-selected="true"]{border:1px solid CanvasText}
+  .tphase.now,.pband{outline:2px solid Highlight}
+  .e-met,.e-wait{stroke:CanvasText}.e-block{stroke:Highlight}
+}

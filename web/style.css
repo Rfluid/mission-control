@@ -1,0 +1,195 @@
+/* Tokens: a verbatim copy of .design/tokens.css (python3 .design/check.py keeps them in sync).
+   Config `[theme]` overrides them per mission at runtime. */
+:root {
+  /* text and surfaces */
+  --bg: #f7f7f5;
+  --panel: #ffffff;
+  --ink: #141414;
+  --ink2: #4a4a4a;
+  --ink3: #6f6f6a;
+  --line: #e3e3df;
+  --line2: #d0d0ca;
+  --focus: #2459b8;
+  --sunk: #f2f2ee;
+  /* state tones */
+  --todo: #5f5f5a;
+  --prog: #2459b8;
+  --rev: #7440b5;
+  --block: #ad3523;
+  --done: #1a7341;
+  --warn: #8a5a0c;
+  /* state tints */
+  --todo-bg: #efefec;
+  --prog-bg: #e6eefc;
+  --rev-bg: #f1e8fb;
+  --block-bg: #fbe8e4;
+  --done-bg: #e3f4ea;
+  --warn-bg: #fbf1dc;
+  /* chart series (categorical, fixed order; see .design/dataviz.md) */
+  --s1: #2a78d6;
+  --s2: #eb6834;
+  --s3: #1baf7a;
+  --s4: #eda100;
+  --s5: #e87ba4;
+  --s6: #008300;
+  --s7: #6250d6;
+  --s8: #e34948;
+}
+
+:root[data-theme="dark"] {
+  /* text and surfaces */
+  --bg: #0e0e0f;
+  --panel: #161618;
+  --ink: #ededea;
+  --ink2: #b4b4ae;
+  --ink3: #8c8c86;
+  --line: #2a2a2d;
+  --line2: #3a3a3e;
+  --focus: #6a9cf5;
+  --sunk: #1c1c1f;
+  /* state tones */
+  --todo: #9a9a94;
+  --prog: #6a9cf5;
+  --rev: #b48af0;
+  --block: #f07a64;
+  --done: #4cc27e;
+  --warn: #e0a84a;
+  /* state tints */
+  --todo-bg: #232325;
+  --prog-bg: #17243d;
+  --rev-bg: #271b38;
+  --block-bg: #3a1d17;
+  --done-bg: #13301f;
+  --warn-bg: #352812;
+  /* chart series (categorical, fixed order; see .design/dataviz.md) */
+  --s1: #3987e5;
+  --s2: #d95926;
+  --s3: #199e70;
+  --s4: #c98500;
+  --s5: #d55181;
+  --s6: #008300;
+  --s7: #9085e9;
+  --s8: #e66767;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    /* text and surfaces */
+    --bg: #0e0e0f;
+    --panel: #161618;
+    --ink: #ededea;
+    --ink2: #b4b4ae;
+    --ink3: #8c8c86;
+    --line: #2a2a2d;
+    --line2: #3a3a3e;
+    --focus: #6a9cf5;
+    --sunk: #1c1c1f;
+    /* state tones */
+    --todo: #9a9a94;
+    --prog: #6a9cf5;
+    --rev: #b48af0;
+    --block: #f07a64;
+    --done: #4cc27e;
+    --warn: #e0a84a;
+    /* state tints */
+    --todo-bg: #232325;
+    --prog-bg: #17243d;
+    --rev-bg: #271b38;
+    --block-bg: #3a1d17;
+    --done-bg: #13301f;
+    --warn-bg: #352812;
+    /* chart series (categorical, fixed order; see .design/dataviz.md) */
+    --s1: #3987e5;
+    --s2: #d95926;
+    --s3: #199e70;
+    --s4: #c98500;
+    --s5: #d55181;
+    --s6: #008300;
+    --s7: #9085e9;
+    --s8: #e66767;
+  }
+}
+
+/* Fonts, served from the binary (OFL, licenses next to them). Variable weight; latin and latin-ext only. */
+@font-face{font-family:Inter;font-style:normal;font-weight:100 900;font-display:swap;src:url(/assets/fonts/inter-v20-latin.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:Inter;font-style:normal;font-weight:100 900;font-display:swap;src:url(/assets/fonts/inter-v20-latin-ext.woff2) format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:"JetBrains Mono";font-style:normal;font-weight:100 800;font-display:swap;src:url(/assets/fonts/jetbrains-mono-v24-latin.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"JetBrains Mono";font-style:normal;font-weight:100 800;font-display:swap;src:url(/assets/fonts/jetbrains-mono-v24-latin-ext.woff2) format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+
+/* Base (.design/typography.md: body 14 / 1.45, two weights, numbers and ids in mono) */
+:root{--ui:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;--mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+/* Native controls and scrollbars follow the theme. */
+:root{color-scheme:light}:root[data-theme="dark"]{color-scheme:dark}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark}}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+html{scroll-padding-top:56px}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 var(--ui);-webkit-font-smoothing:antialiased}
+code,.mono,kbd{font-family:var(--mono)}
+code{font-size:.9em}
+a{color:inherit}
+b,strong,h1,h2,h3{font-weight:600}
+main{max-width:1360px;margin:0 auto;padding:24px}
+section{margin:0 0 28px}
+h2{font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--ink3);margin:0 0 10px;display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+h2 .cnt,.cnt{font:400 11px/1.4 var(--mono);color:var(--ink3);text-transform:none;letter-spacing:0}
+h2 .acts{margin-left:auto;display:flex;gap:6px;text-transform:none;letter-spacing:0;align-self:center}
+h2 .go{font-size:13px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--ink)}
+.muted{color:var(--ink3)}.small{font-size:12.5px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.empty{padding:16px;color:var(--ink3);font-size:14px}
+
+/* Card, pill, glyph (.design/components.md) */
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px}
+.pad{padding:14px 16px}
+.grid{display:grid;gap:12px}
+.g{flex:none;display:inline-block;vertical-align:-1px}
+.pill{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;line-height:18px;padding:0 8px 0 6px;border-radius:10px;white-space:nowrap;background:var(--todo-bg);color:var(--todo)}
+.c-todo{background:var(--todo-bg);color:var(--todo)}.c-prog{background:var(--prog-bg);color:var(--prog)}
+.c-rev{background:var(--rev-bg);color:var(--rev)}.c-block{background:var(--block-bg);color:var(--block)}
+.c-done{background:var(--done-bg);color:var(--done)}.c-warn{background:var(--warn-bg);color:var(--warn)}
+.t-todo{color:var(--todo)}.t-prog{color:var(--prog)}.t-rev{color:var(--rev)}.t-block{color:var(--block)}.t-done{color:var(--done)}.t-warn{color:var(--warn)}
+
+/* Buttons, kbd, segmented control (no colored buttons: principle 2) */
+.btn{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line2);background:var(--panel);color:var(--ink);border-radius:6px;padding:6px 12px;font:inherit;font-size:13px;line-height:18px;cursor:pointer;text-decoration:none;white-space:nowrap}
+.btn:hover{border-color:var(--ink3)}
+.btn[disabled]{opacity:.55;cursor:not-allowed}
+.btn.icon{padding:6px 8px}
+.btn.rec{border-color:var(--ink);box-shadow:inset 0 0 0 .5px var(--ink)}
+.btn .note{font-size:11.5px;color:var(--ink3)}
+.kbd{display:inline-block;font:400 11px/16px var(--mono);color:var(--ink3);border:1px solid var(--line2);border-radius:4px;padding:0 4px}
+.seg{display:inline-flex;border:1px solid var(--line2);border-radius:6px;overflow:hidden;vertical-align:middle}
+.seg button{font:inherit;font-size:12.5px;line-height:18px;padding:4px 10px;border:0;background:var(--panel);color:var(--ink2);cursor:pointer}
+.seg button+button{border-left:1px solid var(--line2)}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--panel)}
+
+/* Table (.card.tw) */
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th{text-align:left;font-weight:600;color:var(--ink3);font-size:11px;text-transform:uppercase;letter-spacing:.07em;padding:10px 16px 8px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:9px 16px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:0}
+.tw{overflow-x:auto}
+/* Scrollers inside cards (tables, graphs): a thin bar in the line tokens, never the OS's thick one. */
+.tw,.pscroll,.feed,.board{scrollbar-width:thin;scrollbar-color:var(--line2) transparent}
+.tw::-webkit-scrollbar,.pscroll::-webkit-scrollbar,.board::-webkit-scrollbar{height:8px;width:8px}
+.tw::-webkit-scrollbar-thumb,.pscroll::-webkit-scrollbar-thumb,.board::-webkit-scrollbar-thumb{background:var(--line2);border-radius:4px;border:2px solid var(--panel)}
+.tw::-webkit-scrollbar-track,.pscroll::-webkit-scrollbar-track,.board::-webkit-scrollbar-track{background:transparent}
+.tw::-webkit-scrollbar-button,.pscroll::-webkit-scrollbar-button,.board::-webkit-scrollbar-button{display:none}
+.num{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums}
+
+/* Banner, inputs, dialog, toast */
+.banner{border-left:3px solid var(--block);padding:10px 14px;margin-bottom:16px;font-size:13.5px}
+.banner.warn{border-left-color:var(--warn)}
+.banner.draft{border-left-color:var(--rev)}
+input[type=text],input[type=search],textarea{flex:1;min-width:0;border:1px solid var(--line2);background:var(--panel);color:var(--ink);border-radius:6px;padding:7px 10px;font:inherit;font-size:13.5px}
+dialog{border:1px solid var(--line2);border-radius:10px;background:var(--panel);color:var(--ink);width:min(520px,calc(100vw - 32px));padding:16px}
+dialog::backdrop{background:color-mix(in srgb,var(--ink) 30%,transparent)}
+dialog h3{margin:0 0 8px;font-size:16px}
+dialog textarea{width:100%;resize:vertical}
+dialog .row{display:flex;justify-content:flex-end;gap:8px;margin-top:10px}
+.toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:8px 14px;border-radius:8px;font-size:13.5px;opacity:0;pointer-events:none;transition:opacity .15s;z-index:30}
+.toast.show{opacity:1}.toast.bad{background:var(--block)}
+@media (prefers-reduced-motion:reduce){.toast{transition:none}html{scroll-behavior:auto}}
+@media (pointer:coarse),(max-width:860px){.btn,.seg button{min-height:44px}main{padding:16px}}
+@media (forced-colors:active){.pill,.banner,.need,.kbd{border:1px solid CanvasText}.g{color:CanvasText}}

@@ -1,0 +1,26 @@
+# Your defaults: patches every mission, whatever its template.
+
+[mission]
+template = "minimal" # new missions without -t start from this
+
+[theme]
+accent = "#2f6fdb"
+
+# A button you want everywhere. `run` actions are allowed here (your file), but stay off until you opt in.
+[actions.open-logs]
+label = "CI logs"
+kind = "run"
+command = ["gh", "run", "view", "--log-failed"]
+confirm = true
+
+[permissions]
+run_actions = false
+
+# Lists of tables merge by id: this adds one section to every page and leaves the template's others alone.
+[[sections]]
+id = "spend"
+title = "Spend"
+widget = "table"
+collection = "spend"
+before = "activity"
+columns = [{ id = "key", label = "What" }, { id = "usd", label = "USD" }]

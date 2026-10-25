@@ -1,0 +1,5 @@
+# Same name as a built-in template: patches it instead of replacing it (`replace = true` would replace it).
+[[sections]]
+id = "activity"
+title = "Log"
+limit = 100

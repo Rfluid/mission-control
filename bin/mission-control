@@ -1,0 +1,64 @@
+#!/usr/bin/env bash
+# Entry point agents and PATH link to.
+# - With cargo: builds the release binary on first use, or when the sources changed.
+# - Without cargo (or MISSION_CONTROL_PREBUILT=1): downloads this version's release binary once.
+set -euo pipefail
+src="$(readlink -f "${BASH_SOURCE[0]}" 2>/dev/null || python3 -c 'import os,sys;print(os.path.realpath(sys.argv[1]))' "${BASH_SOURCE[0]}")"
+repo="$(cd "$(dirname "$src")/.." && pwd)"
+export MISSION_CONTROL_REPO="$repo" # the binary links this clone, not wherever it was built
+
+# Git Bash and friends on Windows: bin/mission-control.ps1 is the Windows entry point.
+case "$(uname -s)" in
+  MINGW* | MSYS* | CYGWIN*)
+    exec powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File "$(cygpath -w "$repo/bin/mission-control.ps1")" "$@" ;;
+esac
+
+if [[ "${MISSION_CONTROL_PREBUILT:-}" != 1 ]] && command -v cargo >/dev/null; then
+  exe="$repo/target/release/mission-control"
+  build() { cargo build --release --quiet --manifest-path "$repo/Cargo.toml"; }
+  if [[ ! -x "$exe" ]]; then
+    build >&2
+  elif [[ -n "$(find "$repo/src" "$repo/web" "$repo/defaults" "$repo/migrations" "$repo/Cargo.toml" "$repo/build.rs" -newer "$exe" -print -quit 2>/dev/null)" ]]; then
+    if [[ "${1:-}" == mcp ]]; then
+      # Agents give an MCP server ~30s to start; a rebuild takes longer. Serve this session with the
+      # current binary and rebuild in the background. The daemon handshake picks up the new one later.
+      logdir="${MISSION_CONTROL_HOME:-$HOME/.local/state/mission-control}"
+      mkdir -p "$logdir" && (build >>"$logdir/build.log" 2>&1 &)
+    else
+      build >&2
+    fi
+  fi
+  exec "$exe" "$@"
+fi
+
+version="$(sed -n 's/^version = "\(.*\)"/\1/p' "$repo/Cargo.toml" | head -1)"
+exe="$repo/target/prebuilt/mission-control"
+if [[ ! -x "$exe" ]] || [[ "$("$exe" --version 2>/dev/null | cut -d' ' -f2)" != "$version" ]]; then
+  case "$(uname -s)-$(uname -m)" in
+    Linux-x86_64) triple=x86_64-unknown-linux-gnu ;;
+    Linux-aarch64 | Linux-arm64) triple=aarch64-unknown-linux-gnu ;;
+    Darwin-arm64) triple=aarch64-apple-darwin ;;
+    Darwin-x86_64) triple=x86_64-apple-darwin ;;
+    *) echo "mission-control: no release binary for $(uname -sm); install Rust (https://rustup.rs)" >&2; exit 1 ;;
+  esac
+  slug="${MISSION_CONTROL_RELEASE_REPO:-Rfluid/mission-control}" name="mission-control-$version-$triple.tar.gz"
+  tmp="$(mktemp -d)"; trap 'rm -rf "$tmp"' EXIT
+  echo "mission-control: downloading $name (no cargo found)" >&2
+  if [[ -n "${MISSION_CONTROL_RELEASE_BASE:-}" ]]; then # a mirror, or a local server in tests
+    curl -fsSL "$MISSION_CONTROL_RELEASE_BASE/$name" -o "$tmp/$name" && curl -fsSL "$MISSION_CONTROL_RELEASE_BASE/$name.sha256" -o "$tmp/$name.sha256" \
+      || { echo "mission-control: download from $MISSION_CONTROL_RELEASE_BASE failed" >&2; exit 1; }
+  elif command -v gh >/dev/null && gh auth status >/dev/null 2>&1; then
+    gh release download "v$version" -R "$slug" -p "$name" -p "$name.sha256" -D "$tmp" >&2 || {
+      echo "mission-control: no prebuilt binary for v$version (a tag can exist without a published release); install Rust (https://rustup.rs) to build from source" >&2; exit 1; }
+  else
+    base="https://github.com/$slug/releases/download/v$version"
+    curl -fsSL "$base/$name" -o "$tmp/$name" && curl -fsSL "$base/$name.sha256" -o "$tmp/$name.sha256" || {
+      echo "mission-control: download failed: v$version may have no published release binaries, or the repo is private (\`gh auth login\`). Install Rust (https://rustup.rs) to build from source" >&2; exit 1; }
+  fi
+  (cd "$tmp" && { sha256sum -c "$name.sha256" 2>/dev/null || shasum -a 256 -c "$name.sha256"; } >/dev/null) \
+    || { echo "mission-control: checksum mismatch for $name" >&2; exit 1; }
+  tar -xzf "$tmp/$name" -C "$tmp"
+  mkdir -p "$repo/target/prebuilt"
+  mv "$tmp/mission-control-$version-$triple/mission-control" "$exe.new" && chmod +x "$exe.new" && mv "$exe.new" "$exe"
+fi
+exec "$exe" "$@"

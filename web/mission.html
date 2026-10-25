@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{TITLE}} · mission-control</title>
+<link rel="stylesheet" href="/assets/style.css">
+<link rel="stylesheet" href="/assets/shell.css">
+<link rel="stylesheet" href="/assets/widgets.css">
+<link rel="stylesheet" href="/assets/graph.css">
+<link rel="stylesheet" href="/assets/drawer.css">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+</head>
+<body>
+<header class="top">
+  <div class="topin">
+    <a class="mark" href="/" aria-label="All missions"><img class="on-light" src="/assets/mark.svg" alt="" width="24" height="24"><img class="on-dark" src="/assets/mark-light.svg" alt="" width="24" height="24"></a>
+    <span class="sep" aria-hidden="true">/</span>
+    <h1 class="brand">{{TITLE}}</h1>
+    <span class="chip" id="tpl"></span>
+    <span class="grow"></span>
+    <span class="compact" id="compact"></span>
+    <span class="live" id="fresh" data-state="connecting"><i class="ldot" aria-hidden="true"></i><span class="lt">connecting</span></span>
+    <button class="btn" type="button" data-palette aria-label="Jump to (command palette)" aria-keyshortcuts="Control+K Meta+K"><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span class="wide">Jump to <span class="kbd" id="modk">⌘K</span></span></button>
+    <span class="tools" id="toolbar"></span>
+    <button class="btn icon" id="bell" type="button" aria-pressed="false" aria-label="Notify me about new questions and blocks"><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 11V7a4 4 0 0 1 8 0v4l1.5 1.5h-11zM6.5 14a1.6 1.6 0 0 0 3 0" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></button>
+    <button class="btn icon" id="theme" type="button" aria-label="Switch theme"><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 2a6 6 0 0 1 0 12z" fill="currentColor"/></svg></button>
+  </div>
+  <div class="strip" id="strip" hidden></div>
+</header>
+<nav class="tabs" aria-label="Pages"><div class="tabsin" id="nav"></div></nav>
+<main><div id="issues"></div><div id="root"></div></main>
+<dialog id="prompt"><form method="dialog">
+  <h3></h3>
+  <textarea rows="4" maxlength="8000"></textarea>
+  <div class="row"><button class="btn" value="cancel" formnovalidate>Cancel</button><button class="btn" value="send">Send</button></div>
+</form></dialog>
+<dialog id="palette" class="palette" aria-label="Command palette"><input type="search" placeholder="Jump to a page, section, record, question or button" aria-label="Search" role="combobox" aria-controls="pal-list" aria-expanded="true" autocomplete="off"><ul class="pal-list" id="pal-list" role="listbox"></ul></dialog>
+<dialog id="keys" class="keysheet" aria-labelledby="keys-title"><form method="dialog"><div class="keys-head"><h3 id="keys-title">Keyboard shortcuts</h3><button class="btn icon" value="close" aria-label="Close">✕</button></div><div class="keys-body"></div></form></dialog>
+<div class="scrim" id="scrim" hidden></div>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="drawer-title" hidden></aside>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+<div id="announce" class="sr" aria-live="polite"></div>
+<script>window.MISSION = { id: "{{ID}}", token: "{{TOKEN}}" };</script>
+<script src="/assets/glyphs.js"></script>
+<script src="/assets/markdown.js"></script>
+<script src="/assets/widgets.js"></script>
+<script src="/assets/widgets-core.js"></script>
+<script src="/assets/widgets-needs.js"></script>
+<script src="/assets/widgets-chart.js"></script>
+<script src="/assets/widgets-board.js"></script>
+<script src="/assets/viewport.js"></script>
+<script src="/assets/plan-layout.js"></script>
+<script src="/assets/widgets-track.js"></script>
+<script src="/assets/widgets-plan.js"></script>
+<script src="/assets/widgets-graph.js"></script>
+<script src="/assets/mermaid.js"></script>
+<script src="/assets/widgets-embed.js"></script>
+<script src="/assets/pages.js"></script>
+<script src="/assets/live.js"></script>
+<script src="/assets/shell.js"></script>
+<script src="/assets/drawer.js"></script>
+<script src="/assets/palette.js"></script>
+<script src="/assets/keys.js"></script>
+<script src="/assets/attention.js"></script>
+<script src="/assets/actions.js"></script>
+<script src="/assets/app.js"></script>
+</body>
+</html>

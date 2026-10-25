@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>mission-control</title>
+<link rel="stylesheet" href="/assets/style.css">
+<link rel="stylesheet" href="/assets/shell.css">
+<link rel="stylesheet" href="/assets/widgets.css">
+<link rel="stylesheet" href="/assets/home.css">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+</head>
+<body>
+<header class="top"><div class="topin">
+  <a class="wordmark" href="/"><img class="on-light" src="/assets/mark.svg" alt="" width="26" height="26"><img class="on-dark" src="/assets/mark-light.svg" alt="" width="26" height="26"><h1 class="wm">mission<span>-control</span></h1></a>
+  <span class="grow"></span>
+  <span class="live mono" id="addr">{{ADDR}} · v{{VERSION}}</span>
+  <button class="btn" type="button" data-palette aria-keyshortcuts="Control+K Meta+K"><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>Find a mission <span class="kbd" id="modk">⌘K</span></button>
+  <button class="btn icon" id="theme" type="button" aria-label="Switch theme"><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 2a6 6 0 0 1 0 12z" fill="currentColor"/></svg></button>
+</div></header>
+<main id="home">
+  <section id="needs" hidden></section>
+  <section id="missions"><div class="empty">Loading…</div></section>
+  <section id="finished" hidden></section>
+</main>
+<dialog id="palette" class="palette" aria-label="Find a mission"><input type="search" placeholder="Find a mission or a question" aria-label="Search" role="combobox" aria-controls="pal-list" aria-expanded="true" autocomplete="off"><ul class="pal-list" id="pal-list" role="listbox"></ul></dialog>
+<script src="/assets/glyphs.js"></script>
+<script src="/assets/index.js"></script>
+</body>
+</html>

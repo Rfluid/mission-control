@@ -1,0 +1,8 @@
+{
+  "name": "mission-control-dev",
+  "private": true,
+  "description": "Dev-only tooling: type-checks web/*.js (JSDoc + @ts-check). Nothing here ships in the binary.",
+  "devDependencies": {
+    "typescript": "7.0.2"
+  }
+}

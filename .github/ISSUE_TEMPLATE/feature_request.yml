@@ -1,0 +1,36 @@
+name: Feature request
+description: Suggest a change or a new capability.
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        mission shows a coding-agent run on a local page drawn from layered config, and the daemon stays on 127.0.0.1.
+        Many requests are config, not code: check `docs/CONFIG.md` first, and `docs/ROADMAP.md`; it may be planned.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What are you trying to do, and what gets in the way today?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: What you'd like mission to do. A sketch of the config, widget, CLI or MCP tool helps.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives
+      description: Workarounds or other designs you considered (for example, a template or a custom widget).
+  - type: dropdown
+    id: contribute
+    attributes:
+      label: Would you open a PR?
+      options:
+        - "Yes"
+        - Maybe, with guidance
+        - "No"

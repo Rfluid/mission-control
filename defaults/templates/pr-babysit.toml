@@ -1,0 +1,50 @@
+name = "pr-babysit"
+description = "Watching a set of pull requests through review and CI to merge."
+extends = "minimal"
+
+[links]
+pr = "https://github.com/{vars.repo}/pull/{value}"
+
+[actions.rerun-ci]
+label = "Re-run CI"
+kind = "ask_agent"
+message = "Re-run failed CI on PR {row.key}"
+
+[actions.address-review]
+label = "Address review"
+kind = "ask_agent"
+message = "Address the review on PR {row.key}"
+
+[strip]
+cells = [
+  { id = "open", label = "Open", count = { collection = "prs", state = "open" }, of = { collection = "prs" } },
+  { id = "red", label = "CI red", count = { collection = "prs", field = "checks", value = "red" }, tone = "block", hide_zero = true },
+  { id = "merged", label = "Merged", count = { collection = "prs", state = "merged" } },
+]
+
+[[sections]]
+id = "overview"
+items = [
+  { label = "Open", count = { collection = "prs", state = "open" }, of = { collection = "prs" } },
+  { label = "CI red", count = { collection = "prs", field = "checks", value = "red" } },
+  { label = "Waiting on you", count = { collection = "needs", state = "open" } },
+]
+
+[[sections]]
+id = "prs"
+title = "Pull requests"
+widget = "table"
+collection = "prs"
+after = "needs"
+columns = [
+  { id = "key", label = "PR", link = "pr" },
+  { id = "title" },
+  { id = "state", as = "pill" },
+  { id = "review" },
+  { id = "checks" },
+  { id = "unanswered" },
+]
+row_actions = ["rerun-ci", "address-review"]
+
+[brief]
+collections = ["needs", "prs"]

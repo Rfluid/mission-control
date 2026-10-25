@@ -1,0 +1,15 @@
+name = "standup"
+description = "Yesterday, today, blockers: a small daily page."
+extends = "minimal"
+
+[[sections]]
+id = "status"
+remove = true
+
+[[sections]]
+id = "today"
+title = "Today"
+widget = "table"
+collection = "tasks"
+after = "needs"
+columns = [{ id = "key", as = "code" }, { id = "title" }, { id = "state", as = "pill" }]

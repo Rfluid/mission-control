@@ -1,0 +1,84 @@
+name: Bug report
+description: Something in mission doesn't work as it should.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting. Mission records and config can contain private content: redact anything you don't want public.
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you did, what you expected, and what happened instead.
+      placeholder: |
+        I added a section in ~/.config/mission-control/config.toml. I expected it on every mission page, but it only showed on new ones.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. `mission-control new "x" -t minimal`
+        2. `mission-control upsert …`
+        3. …
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Where
+      multiple: true
+      options:
+        - Mission page in the browser (sections, widgets, buttons)
+        - Config (layers, templates, merge, `config explain`)
+        - Agent side (CLI, MCP tools)
+        - Daemon (`mission-control serve`)
+        - Install / uninstall / update
+        - Docs
+        - Not sure
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: mission version
+      description: Output of `mission-control --version`.
+      placeholder: mission 0.1.0 (159e22b)
+    validations:
+      required: true
+  - type: input
+    id: agent
+    attributes:
+      label: Coding agent
+      description: Which agent and version, if it's involved.
+      placeholder: Claude Code 2.x, Codex CLI, Cursor, Gemini CLI, opencode…
+  - type: input
+    id: env
+    attributes:
+      label: OS and browser
+      placeholder: macOS 15 (arm64), Chrome 140
+    validations:
+      required: true
+  - type: textarea
+    id: config
+    attributes:
+      label: Config
+      description: The relevant part of `mission-control config explain -m <id>`, and the config files involved (redacted).
+      render: text
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs
+      description: |
+        `mission-control status`, the daemon log (state dir, `~/.local/state/mission-control/` by default), and browser console errors, if any.
+      render: text
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: I searched existing issues and this isn't a duplicate.
+          required: true
+        - label: I'm on the latest release, or I said why not above.

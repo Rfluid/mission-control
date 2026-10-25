@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="mission">
+  <title>mission-control mark (ink tile)</title>
+  <rect width="64" height="64" rx="14" fill="#141414"/>
+  <path d="M22 17h-6v30h6M42 17h6v30h-6" stroke="#ededea" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <circle cx="32" cy="32" r="10.5" fill="#e0a84a" fill-opacity="0.22"/>
+  <circle cx="32" cy="32" r="5.5" fill="#e0a84a"/>
+</svg>

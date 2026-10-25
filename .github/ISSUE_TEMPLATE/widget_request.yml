@@ -1,0 +1,34 @@
+name: Widget or template
+description: Propose a built-in widget, template or button kind.
+labels: [enhancement, widgets]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Built-ins ship to everyone, so they should fit many runs. For one-off needs, a named widget (`[widgets.x] base = …`)
+        or a user/project template may already do it: see `docs/CONFIG.md`.
+  - type: input
+    id: name
+    attributes:
+      label: Name
+      placeholder: burndown chart, kanban, deploy-pipeline template, …
+    validations:
+      required: true
+  - type: textarea
+    id: shows
+    attributes:
+      label: What it shows or does
+      description: Which collections or events it reads, and what the user sees or clicks.
+    validations:
+      required: true
+  - type: textarea
+    id: config
+    attributes:
+      label: Config sketch
+      description: How a section would use it.
+      render: toml
+  - type: textarea
+    id: notes
+    attributes:
+      label: Anything else
+      description: Mockups, links to a page that does this today, edge cases.
