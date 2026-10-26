@@ -1,5 +1,5 @@
 // The keyboard on the demo mission: the palette (Ctrl+K, `/`) drives a page change, a drawer and an action
-// with no mouse; `g` jumps, `n` finds the question, `?` lists the keys; nothing fires while typing; and
+// with no mouse; `g` jumps, `n` finds the question, `?` lists the keys; nothing fires while typing (shadow roots too); and
 // `[ui] shortcuts = false` turns single keys off while Ctrl+K keeps working.
 // Run: `node tests/browser/keys.test.mjs` after `cargo build --release`.
 
@@ -99,6 +99,21 @@ await steps([
     assert.equal(await path(), "/");
     assert.equal(await browser.eval(`!!document.querySelector("#needs .need")`), true, "1 didn't answer the question");
     await browser.eval(`document.querySelector('#needs input[data-draft]').value = ""`);
+  }],
+
+  ["nor while typing in a shadow-root overlay (redline's comment box)", async () => {
+    await browser.eval(`(() => {
+      const host = document.createElement("div"); host.id = "overlay";
+      document.body.append(host);
+      host.attachShadow({ mode: "open" }).innerHTML = "<textarea></textarea>";
+      host.shadowRoot.querySelector("textarea").focus();
+    })()`);
+    await type("g/p?n");
+    assert.equal(await browser.eval(`document.getElementById("overlay").shadowRoot.querySelector("textarea").value`), "g/p?n");
+    assert.equal(await paletteOpen(), false);
+    assert.equal(await browser.eval(`document.getElementById("keys").open`), false);
+    assert.equal(await path(), "/");
+    await browser.eval(`document.getElementById("overlay").remove()`);
   }],
 
   ["[ui] shortcuts = false turns single keys off; Ctrl+K still opens the palette", async () => {

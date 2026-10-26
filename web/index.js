@@ -119,7 +119,8 @@
     else if (e.target === dlg) dlg.close();
   });
   document.addEventListener("keydown", e => {
-    const typing = e.target instanceof Element && !!e.target.closest("input, textarea, dialog[open]");
+    const src = e.composedPath()[0] ?? e.target; // the real origin, inside shadow roots too (see keys.js)
+    const typing = src instanceof Element && !!src.closest("input, textarea, dialog[open]");
     if (((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") || (e.key === "/" && !typing)) { e.preventDefault(); openPalette(); }
   });
   /** @type {HTMLElement} */ (document.querySelector("[data-palette]")).onclick = openPalette;
