@@ -111,7 +111,7 @@
 
   // With focus in a diagram: + / − zoom, 0 fits, f goes fullscreen (arrow keys scroll it natively).
   document.addEventListener("keydown", e => {
-    const t = e.target instanceof Element ? e.target : null;
+    const src = e.composedPath()[0] ?? e.target, t = src instanceof Element ? src : null; // see keys.js
     const sec = t && t.closest("section"), sc = sec && /** @type {HTMLElement | null} */ (sec.querySelector("[data-viewport]"));
     if (!sc || e.metaKey || e.ctrlKey || e.altKey || (t && t.closest("input, textarea"))) return;
     const id = sc.dataset.viewport || "";

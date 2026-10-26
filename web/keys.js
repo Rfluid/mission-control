@@ -54,7 +54,10 @@
       e.preventDefault();
       return void window.MissionPalette.open();
     }
-    if (e.metaKey || e.ctrlKey || e.altKey || typing(e.target) || !enabled() || e.defaultPrevented) return;
+    // composedPath()[0], not e.target: a text box inside a shadow root (an overlay such as redline's)
+    // retargets e.target to its host, which would read as "not typing".
+    const src = e.composedPath()[0] ?? e.target;
+    if (e.metaKey || e.ctrlKey || e.altKey || typing(src) || !enabled() || e.defaultPrevented) return;
     if (prefix && Date.now() - prefix < PREFIX_MS) {
       prefix = 0;
       const page = [...letters(ctx.config)].find(([, l]) => l === e.key.toLowerCase());
@@ -62,7 +65,7 @@
       return;
     }
     prefix = 0;
-    const t = e.target instanceof HTMLElement ? e.target : null;
+    const t = src instanceof HTMLElement ? src : null;
     if (e.key === "/") { e.preventDefault(); window.MissionPalette.open(); }
     else if (e.key === "?") { e.preventDefault(); sheet(ctx); }
     else if (e.key === "g") { prefix = Date.now(); }

@@ -4,6 +4,9 @@ All notable changes to mission-control. The format follows [Keep a Changelog](ht
 
 ## [Unreleased]
 
+### Fixed
+- **Typing in an overlay no longer triggers shortcuts.** Keys typed into a text box drawn by an overlay on the page (such as a redline comment) were read as shortcuts: `n` jumped to the first question instead of typing, and `/`, `?`, `g` did the same.
+
 ## [0.1.0] - 2026-10-25
 
 First public release.
