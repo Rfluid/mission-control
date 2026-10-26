@@ -4,6 +4,8 @@ All notable changes to mission-control. The format follows [Keep a Changelog](ht
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-10-26
+
 ### Fixed
 - **Typing in an overlay no longer triggers shortcuts.** Keys typed into a text box drawn by an overlay on the page (such as a redline comment) were read as shortcuts: `n` jumped to the first question instead of typing, and `/`, `?`, `g` did the same.
 
@@ -30,5 +32,6 @@ First public release.
 - Update notices: a daily release check, shown on the page and to your agent. `mission-control update` installs it; skip a version (`update skip`) or turn notices off (`update off`).
 - Linux, macOS and Windows. Release binaries for Linux (x86_64, aarch64), macOS (arm64, x86_64) and Windows (x86_64, arm64); `bin/mission-control` downloads one when `cargo` isn't installed. Install and update use the latest release, not the development branch.
 
-[Unreleased]: https://github.com/Rfluid/mission-control/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/Rfluid/mission-control/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/Rfluid/mission-control/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/Rfluid/mission-control/releases/tag/v0.1.0
