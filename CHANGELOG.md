@@ -4,8 +4,10 @@ All notable changes to mission-control. The format follows [Keep a Changelog](ht
 
 ## [Unreleased]
 
+## [0.1.2] - 2026-10-28
+
 ### Fixed
-- **"Now" follows the work being built.** The current phase on the plan, the Overview track and the home page stayed on a phase whose only open work was waiting on review, merge or someone else. It is now the first phase with work in progress, else the first with work not started, else the first not done.
+- **"Now" follows the work being built.** The current phase on the plan, the Overview track and the home page stayed on a phase whose only open work was waiting on review, merge or someone else. It is now the first phase with work in progress, else the first with work not started, else the first not done. A phase behind it fills the home page's progress bar only once all its work is done.
 
 ## [0.1.1] - 2026-10-26
 
@@ -35,6 +37,7 @@ First public release.
 - Update notices: a daily release check, shown on the page and to your agent. `mission-control update` installs it; skip a version (`update skip`) or turn notices off (`update off`).
 - Linux, macOS and Windows. Release binaries for Linux (x86_64, aarch64), macOS (arm64, x86_64) and Windows (x86_64, arm64); `bin/mission-control` downloads one when `cargo` isn't installed. Install and update use the latest release, not the development branch.
 
-[Unreleased]: https://github.com/Rfluid/mission-control/compare/v0.1.1...HEAD
+[Unreleased]: https://github.com/Rfluid/mission-control/compare/v0.1.2...HEAD
+[0.1.2]: https://github.com/Rfluid/mission-control/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/Rfluid/mission-control/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/Rfluid/mission-control/releases/tag/v0.1.0
