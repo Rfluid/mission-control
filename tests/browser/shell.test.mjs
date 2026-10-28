@@ -28,7 +28,7 @@ await steps([
     await browser.waitFor(`!!document.querySelector("#strip .cell.needs")`);
     assert.match(await browser.eval(`document.querySelector("#strip .cell.hl").textContent`), /on track.*storage adapter blocked/);
     const cells = await browser.eval(`[...document.querySelectorAll("#strip [data-cell]")].map(c => [c.dataset.cell, c.querySelector(".v").textContent])`);
-    assert.deepEqual(cells, [["phase", "2 of 4 · Build"], ["tasks", "3/8 done"], ["blocked", "1"], ["agents", "2 running"], ["spend", "$14.20"]]);
+    assert.deepEqual(cells, [["phase", "3 of 4 · Run"], ["tasks", "3/8 done"], ["blocked", "1"], ["agents", "2 running"], ["spend", "$14.20"]]);
     assert.equal(await browser.eval(`document.querySelector('[data-cell="blocked"] .v').classList.contains("t-block")`), true);
     const needs = await browser.eval(`(() => { const a = document.querySelector("#strip a.cell.needs.on"); return [a.textContent, new URL(a.href).hash, !!a.querySelector("svg.g")]; })()`);
     assert.deepEqual(needs, ["Needs you1 question", "#needs", true]);

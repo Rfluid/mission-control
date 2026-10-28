@@ -44,9 +44,9 @@ await steps([
     const t = await browser.eval(`${card}.innerText.replace(/\\s+/g, " ")`);
     assert.match(t, /1 needs you/);
     assert.match(t, /on track Build phase merging; storage adapter blocked on credentials\./);
-    assert.match(t, /Phase 2 of 4 · Build/);
+    assert.match(t, /Phase 3 of 4 · Run/);
     assert.match(t, /Tasks 3\/8 done Blocked 1 Agents 2 running/);
-    assert.deepEqual(await browser.eval(`[...${card}.querySelectorAll(".segs i")].map(i => i.className)`), ["sg-done", "sg-now", "sg-ahead", "sg-ahead"]);
+    assert.deepEqual(await browser.eval(`[...${card}.querySelectorAll(".segs i")].map(i => i.className)`), ["sg-done", "sg-ahead", "sg-now", "sg-ahead"]);
     const babysit = await browser.eval(`[...document.querySelectorAll(".mcard")].find(c => c.querySelector(".mt").textContent.startsWith("PR babysit")).innerText.replace(/\\s+/g, " ")`);
     assert.match(babysit, /blocked CI red on #512 after main moved/);
     assert.match(babysit, /2 of 3 prs done/);

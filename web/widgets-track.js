@@ -40,7 +40,12 @@
     const phases = keys.map(k => ({ key: k, name: name(k), nodes: nodes.filter(n => phaseOf(n) === k) }));
     const loose = nodes.filter(n => !keys.includes(phaseOf(n)));
     if (loose.length) phases.push({ key: "", name: "Unphased", nodes: loose });
-    const current = phases.findIndex(p => p.nodes.some(n => !done(n)));
+    // "Now" is the phase being built: the first with a record in progress. Review, merge and waiting on others run
+    // async, so a phase left with only those is not current. With nothing in progress, the first with work not
+    // started; then the first not done.
+    const current = [(/** @type {Rec} */ n) => tone(n) === "prog", (/** @type {Rec} */ n) => !done(n) && !["rev", "warn"].includes(tone(n)), (/** @type {Rec} */ n) => !done(n)]
+      .map(test => phases.findIndex(p => p.nodes.some(test)))
+      .find(i => i >= 0) ?? -1;
     const gates = [...(ctx.records[Gt.collection || ""] || [])].sort((a, b) => h.compare(a.key, b.key))
       .map(g => ({ rec: g, after: String(h.field(g, Gt.after || "after") ?? ""), reqs: reqs(g, Gt.requirements) }));
     // The next gate is the first one not passed; it's the one marked warn.

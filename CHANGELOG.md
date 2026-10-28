@@ -4,6 +4,9 @@ All notable changes to mission-control. The format follows [Keep a Changelog](ht
 
 ## [Unreleased]
 
+### Fixed
+- **"Now" follows the work being built.** The current phase on the plan, the Overview track and the home page stayed on a phase whose only open work was waiting on review, merge or someone else. It is now the first phase with work in progress, else the first with work not started, else the first not done.
+
 ## [0.1.1] - 2026-10-26
 
 ### Fixed
