@@ -118,12 +118,22 @@ fn progress(c: &Value, records: &[Record], tone: &dyn Fn(Option<&str>) -> String
         };
         phases.sort_by(|a, b| natural(&a.0, &b.0));
         if !phases.is_empty() {
-            let done = |r: &&Record| tone(r.state.as_deref()) == "done";
-            let current = phases.iter().position(|(k, _)| nodes.iter().any(|n| phase_of(n) == *k && !done(n)));
+            // "Now" is the phase being built (the page's track does the same): the first with a record in progress,
+            // else the first with work not started (review and waiting run async), else the first not done.
+            let tone_of = |r: &&Record| tone(r.state.as_deref());
+            let tests: [&dyn Fn(&&Record) -> bool; 3] =
+                [&|r| tone_of(r) == "prog", &|r| !matches!(tone_of(r).as_str(), "done" | "rev" | "warn"), &|r| {
+                    tone_of(r) != "done"
+                }];
+            let current = tests
+                .iter()
+                .find_map(|test| phases.iter().position(|(k, _)| nodes.iter().any(|n| phase_of(n) == *k && test(n))));
             let at = current.unwrap_or(phases.len() - 1);
             let segments: Vec<&str> = (0..phases.len())
                 .map(|i| {
-                    if current.is_none() || i < at {
+                    // A phase behind "now" can still hold review or blocked work; only a finished one fills.
+                    let finished = || nodes.iter().all(|n| phase_of(n) != phases[i].0 || tone_of(n) == "done");
+                    if current.is_none() || (i < at && finished()) {
                         "done"
                     } else if i == at {
                         "now"
@@ -231,5 +241,42 @@ mod tests {
         assert_eq!(fmt(3_100_000.0, Some("tokens")), "3.1M");
         assert_eq!(fmt(3.0, None), "3");
         assert_eq!(natural("P2", "P10"), std::cmp::Ordering::Less);
+    }
+
+    #[test]
+    fn the_current_phase_is_where_work_is_in_progress_not_where_review_waits() {
+        let rec = |collection: &str, key: &str, state: &str, phase: &str| Record {
+            collection: collection.into(),
+            key: key.into(),
+            state: Some(state.into()),
+            body: json!({"phase": phase, "title": key}),
+            updated: 0,
+        };
+        let config = json!({"sections": [{"widget": "plan", "phases": {"collection": "phases"}, "nodes": {"collection": "tasks"}}]});
+        let tone = |state: Option<&str>| -> String {
+            match state {
+                Some("done") => "done",
+                Some("in_review") => "rev",
+                Some("in_progress") => "prog",
+                _ => "todo",
+            }
+            .into()
+        };
+        let mut records = vec![
+            rec("phases", "P1", "", ""),
+            rec("phases", "P2", "", ""),
+            rec("phases", "P3", "", ""),
+            rec("tasks", "a", "in_review", "P1"),
+            rec("tasks", "b", "in_progress", "P2"),
+            rec("tasks", "c", "todo", "P3"),
+        ];
+        let now = |records: &[Record]| progress(&config, records, &tone)["caption"].as_str().unwrap_or("").to_string();
+        assert_eq!(now(&records), "Phase 2 of 3 · P2", "a PR in review does not hold the phase");
+        let segments = |records: &[Record]| progress(&config, records, &tone)["segments"].clone();
+        assert_eq!(segments(&records), json!(["", "now", ""]), "a phase behind now with work in review is not done");
+        records[4].state = Some("done".into());
+        assert_eq!(now(&records), "Phase 3 of 3 · P3", "then the first with work not started");
+        records[5].state = Some("done".into());
+        assert_eq!(now(&records), "Phase 1 of 3 · P1", "then the first not done");
     }
 }

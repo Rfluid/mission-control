@@ -36,7 +36,7 @@ await steps([
   ["gates sit between phases in their tone; the current phase is banded", async () => {
     const gates = await browser.eval(`[...document.querySelectorAll("#plan .pgate .mono")].map(g => [g.textContent, g.className])`);
     assert.deepEqual(gates, [["G0 2/2", "mono t-done"], ["G1 1/3", "mono t-warn"], ["G2 0/2", "mono"]]);
-    assert.equal(await text("#plan .phead.now .lbl"), "Phase 2 · Build · now");
+    assert.equal(await text("#plan .phead.now .lbl"), "Phase 3 · Run · now");
     assert.equal(await browser.eval(`document.querySelectorAll("#plan .pband").length`), 1);
     assert.equal(await text("#plan h2 .cnt"), "3/8 done · 1 blocked");
   }],
@@ -129,12 +129,12 @@ await steps([
   ["Overview: the phase track and the strip's phase cell read the same plan", async () => {
     await browser.goto(demo.url);
     await browser.waitFor(`document.querySelectorAll("#track .tphase").length === 4`);
-    assert.equal(await text("#track .tphase.now .lbl"), "Phase 2 · now");
-    assert.match(await text("#track .tphase.now"), /Build 1 done · 1 review · 1 blocked$/);
+    assert.equal(await text("#track .tphase.now .lbl"), "Phase 3 · now");
+    assert.match(await text("#track .tphase.now"), /Run 1 running · 1 todo$/);
     assert.match(await text("#track .tphase"), /Contracts 2\/2 done$/);
     assert.equal(await text("#track h2 .cnt"), "4 phases · 8 tasks · 3 gates");
     assert.equal(await text("#track h2 a.go"), "Open plan");
-    assert.equal(await text('#strip [data-cell="phase"] .v'), "2 of 4 · Build");
+    assert.equal(await text('#strip [data-cell="phase"] .v'), "3 of 4 · Run");
     assert.equal(await browser.eval(`document.querySelectorAll('#strip [data-cell="phase"] .pbar i').length`), 4);
   }],
 
