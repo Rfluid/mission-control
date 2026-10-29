@@ -28,7 +28,7 @@
       "parameters": {
         "strict_required_status_checks_policy": false,
         "required_status_checks": [
-          { "context": "fmt · clippy · js syntax" },
+          { "context": "fmt · clippy · js syntax and types" },
           { "context": "build · test · e2e · browser (ubuntu-latest)" },
           { "context": "build · test · e2e · browser (macos-14)" },
           { "context": "conventional commits" }
